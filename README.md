@@ -24,6 +24,8 @@ let userId: string | number = "abc1";
 
 ## Array types
 
+### Array of strings
+
 ```ts
 let hobbies: Array<string>;
 hobbies = ["Sports", "Cooking", "Reading"];
