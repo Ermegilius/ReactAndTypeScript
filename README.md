@@ -85,3 +85,76 @@ interface Credentials {
 	pass: string;
 }
 ```
+
+It's easelly extendeble (declaration merging). Other devs can extend your interface for their projects.
+
+```ts
+interface Credentials {
+	user: string;
+	password: string;
+	email: string;
+}
+let creds: Credentials;
+interface Credentials {
+	mode: string;
+}
+```
+
+Useful for projects where **classes** are used.
+
+```ts
+class AuthCredentials implements Credentials {
+	user: string;
+	password: string;
+	email: string;
+}
+function login(credentials: Credentials) {}
+```
+
+## Merging types
+
+We can combine several types into one.
+
+```ts
+type Admin = {
+	permissions: string[];
+};
+type AppUser = {
+	userName: string;
+};
+type AppAdmin = Admin & AppUser;
+```
+
+## Merge interfaces
+
+```ts
+interface Admin {
+	permissions: string[];
+}
+interface AppUser {
+	userName: string;
+}
+interface AppAdmin extends Admin, AppUser {}
+```
+
+## Literal types
+
+```ts
+let role: "admin" | "user" | "editor"; //'admin' or 'user', 'editor'
+role = "admin";
+role = "user";
+role = "editor";
+//role = "abc"; // error
+```
+
+## Type guards
+
+```ts
+type Role = "admin" | "user" | "editor";
+
+function performAction(action: string | number, role: Role) {
+	if (role === "admin" && typeof action === "string") {
+		// do something
+	}
+}
+```
