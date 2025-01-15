@@ -158,3 +158,55 @@ function performAction(action: string | number, role: Role) {
 	}
 }
 ```
+
+When using "Type Guards" (i.e., if statements that check which concrete type is being used), TypeScript performs so-called "Type Narrowing".
+
+```ts
+function combine(a: number | string, b: number | string) {
+	if (typeof a === "number" && typeof b === "number") {
+		return a + b;
+	}
+	return `${a} ${b}`;
+}
+```
+
+**Inside if statement TS narrows a and to numbers only.** You can NOT check if a value meets the definition of a **custom** type (type alias) or interface type. Becouse a custom type does not exist once the code is compiled to JavaScript.
+
+## Geberic type feature
+
+### Build in generics
+
+```ts
+let roles: Array<Role>;
+roles = ["admin", "user", "editor"];
+```
+
+### Custom generics
+
+```ts
+//T is a common placeholder for the type
+type DataStorage<T> = {
+	storage: T[];
+	add: (data: T) => void;
+};
+
+//replacing T with string
+const textStorage: DataStorage<string> = {
+	storage: [],
+	add(data) {
+		this.storage.push(data);
+	},
+};
+```
+
+### Generic functions
+
+```ts
+function merge<T, U>(a: T, b: U) {
+	return {
+		...a,
+		...b,
+	};
+}
+const newUser = merge<{ name: string }, { age: number }>({ name: "Max" }, { age: 30 });
+```

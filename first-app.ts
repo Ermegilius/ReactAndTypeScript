@@ -23,6 +23,7 @@ type User = {
 };
 
 let user: User;
+let user2: User;
 
 //user = 'Max';
 
@@ -136,3 +137,37 @@ function performAction(action: string | number, role: Role) {
 		// do something
 	}
 }
+
+let roles: Array<Role>;
+roles = ["admin", "editor"];
+
+type DataStorage<T> = {
+	//T is a common placeholder for the type
+	storage: T[];
+	add: (data: T) => void;
+};
+
+const textStorage: DataStorage<string> = {
+	//replacing T with string
+	storage: [],
+	add(data) {
+		//data is defined as a string
+		this.storage.push(data);
+	},
+};
+
+const userStorage: DataStorage<User> = {
+	storage: [],
+	add(user) {
+		this.storage.push(user);
+	},
+};
+
+function merge<T, U>(a: T, b: U) {
+	return {
+		...a,
+		...b,
+	};
+}
+
+const newUser = merge<{ name: string }, { age: number }>({ name: "Max" }, { age: 30 });
