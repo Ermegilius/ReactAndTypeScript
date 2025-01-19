@@ -210,3 +210,112 @@ function merge<T, U>(a: T, b: U) {
 }
 const newUser = merge<{ name: string }, { age: number }>({ name: "Max" }, { age: 30 });
 ```
+
+## TS & REACT
+
+```shell
+npm create vite@latest <project name>
+<chose react and TS>
+```
+
+```shell
+cd <project name>
+npm i
+npm run dev
+```
+
+### Components and props
+
+```ts
+import { type FC } from "react";
+type CourseGoalProps = PropsWithChildren<{ title: string }>;
+const CourseGoal: FC<CourseGoalProps> = ({ title, children }) => {
+	return (
+		<article>
+			<div>
+				<h2>{title}</h2>
+				{children}
+			</div>
+			<button>Delete</button>
+		</article>
+	);
+};
+
+export default CourseGoal;
+```
+
+Or this one:
+
+```ts
+import { type ReactNode } from "react";
+
+type HeaderProps = {
+	image: {
+		src: string;
+		alt: string;
+	};
+	children: ReactNode;
+};
+
+export default function Header({ image, children }: HeaderProps) {
+	return (
+		<header>
+			<img {...image} />
+			{children}
+		</header>
+	);
+}
+```
+
+The last one will work with App.tsx:
+
+```ts
+import Header from "./components/Header.tsx";
+import goalsImg from "./assets/goals.jpg";
+
+<Header image={{ src: goalsImg, alt: "A list of goals" }}>
+	<h1>Your course goals</h1>
+</Header>;
+```
+
+### useState
+
+```ts
+import { useState } from "react";
+import CourseGoal from "./components/CourseGoal.tsx";
+
+type CourseGoal = {
+	title: string;
+	description: string;
+	id: number;
+};
+
+export default function App() {
+	const [goals, setGoals] = useState<CourseGoal[]>([]);
+	function handleAddGoal() {
+		setGoals((prevGoals) => {
+			const newGoal: CourseGoal = {
+				id: Math.random(),
+				title: "Learn React, step 1",
+				description: "Learn the first steps in React TS",
+			};
+			return [...prevGoals, newGoal];
+		});
+	}
+
+	return (
+		<main>
+			<button onClick={handleAddGoal}>Add Goal</button>
+			<ul>
+				{goals.map((goal) => (
+					<li key={goal.id}>
+						<CourseGoal title={goal.title}>
+							<p>{goal.description}</p>
+						</CourseGoal>
+					</li>
+				))}
+			</ul>
+		</main>
+	);
+}
+```
