@@ -7,8 +7,17 @@ function App() {
 	const customForm = useRef<FormHandle>(null);
 
 	function handleSave(data: unknown) {
-		const extractedData = data as { name: string; age: string };
-		console.log(extractedData);
+		//one more way to do the same
+		//"Type Casting" (also called "Type Assertion":
+		//const extractedData = data as { name: string; age: string };
+		//console.log(extractedData);
+
+		//"Type Guards" for "Type Narrowing":
+		if (!data || typeof data !== "object" || !("name" in data) || !("age" in data)) {
+			return;
+		}
+		console.log(data);
+
 		customForm.current?.clear();
 	}
 
