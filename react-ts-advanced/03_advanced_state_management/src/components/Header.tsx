@@ -1,11 +1,14 @@
-import Button from './UI/Button.tsx';
+import Button from "./UI/Button.tsx";
+import { TimersContext, useTimersContext } from "../store/timers-context.tsx";
 
 export default function Header() {
-  return (
-    <header>
-      <h1>ReactTimer</h1>
+	const timersCtx = useTimersContext();
 
-      <Button>Stop Timers</Button>
-    </header>
-  );
+	return (
+		<header>
+			<h1>ReactTimer</h1>
+
+			<Button>{timersCtx.isRunning ? "Stop" : "Start"} timers</Button>
+		</header>
+	);
 }
