@@ -1,11 +1,15 @@
 import Input from "./components/Input";
 import Button from "./components/Button";
-import Form from "./components/Form";
+import Form, { type FormHandle } from "./components/Form";
+import { useRef } from "react";
 
 function App() {
+	const customForm = useRef<FormHandle>(null);
+
 	function handleSave(data: unknown) {
 		const extractedData = data as { name: string; age: string };
 		console.log(extractedData);
+		customForm.current?.clear();
 	}
 
 	return (
