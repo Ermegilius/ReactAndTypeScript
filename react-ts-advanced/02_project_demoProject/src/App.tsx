@@ -17,7 +17,6 @@ function App() {
 			return;
 		}
 		console.log(data);
-
 		customForm.current?.clear();
 	}
 
