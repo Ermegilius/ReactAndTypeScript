@@ -3,6 +3,7 @@ import { get } from "./util/http";
 import { type ReactNode, useEffect, useState } from "react";
 import fetchingImage from "./assets/data-fetching.png";
 import { z } from "zod";
+import ErrorMessage from "./components/ErrorMessage";
 
 const rawDataBlogPostSchema = z.object({
 	id: z.number(),
@@ -16,7 +17,7 @@ const expectedResponseDataSchema = z.array(rawDataBlogPostSchema);
 function App() {
 	const [fetchedPosts, setFetchedPosts] = useState<BlogPost[]>();
 	const [isFetching, setIsFetching] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [error, setError] = useState<string>();
 
 	useEffect(() => {
 		async function fetchPosts() {
@@ -47,11 +48,17 @@ function App() {
 		content = <BlogPosts posts={fetchedPosts} />;
 	}
 
+	if (error) {
+		content = <ErrorMessage text={error} />;
+	}
+
+	if (isFetching) {
+		content = <p id="loading-fallback">Fetching posts...</p>;
+	}
+
 	return (
 		<main>
 			<h1>Blog Posts</h1>
-			{isFetching && <p>Loading...</p>}
-			{error && <p style={{ color: "red" }}>{error}</p>}
 			<img src={fetchingImage} alt="An abstract image depicting a data fetching" />
 			{content}
 		</main>
