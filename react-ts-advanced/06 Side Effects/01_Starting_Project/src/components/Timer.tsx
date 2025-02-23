@@ -15,8 +15,14 @@ export default function Timer({ name, duration }: TimerProps) {
 
 		if (isRunning) {
 			timer = setInterval(function () {
-				setRemainingTime((prevTime) => prevTime - 10);
+				setRemainingTime((prevTime) => {
+					if (prevTime <= 0) {
+						return prevTime;
+					}
+					return prevTime - 10;
+				});
 			}, 10);
+
 			interval.current = timer;
 		} else if (interval.current) {
 			clearInterval(interval.current);
