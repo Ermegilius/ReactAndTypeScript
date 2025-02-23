@@ -1,5 +1,5 @@
 import { addToCart } from "../store/cartSlice";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch } from "../store/hooks";
 
 type ProductProps = {
 	id: string;
